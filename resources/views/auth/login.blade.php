@@ -59,14 +59,24 @@
                         <img src="{{ asset('/images/logo-full.png') }}" alt="">
                     </div>
                     <h4 class="text-center mb-4">Sign in your account</h4>
-                    <form action="index.html">
+                    @if( Session::has('msg') )
+                        <p class="text-danger text-center">{{ Session::get('msg') }}</p>
+                    @endif
+                    <form action="{{ route('admin.login') }}" method="POST">
+                        @csrf
                         <div class="form-group">
                             <label class="mb-1"><strong>Email</strong></label>
-                            <input type="email" class="form-control" value="hello@example.com">
+                            <input type="email" name="email" class="form-control">
+                            @error('email')
+                                {{ $message }}
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label class="mb-1"><strong>Password</strong></label>
-                            <input type="password" class="form-control" value="Password">
+                            <input type="password" name="password" class="form-control">
+                            @error('password')
+                                {{ $message }}
+                            @enderror
                         </div>
                         <div class="form-row d-flex justify-content-between mt-4 mb-2">
                             <div class="form-group">
