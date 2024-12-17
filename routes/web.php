@@ -15,7 +15,10 @@ Route::get('/', function () {
 Route::controller(DashboardController::class)->group(function () {
  
     Route::any('/admin-login', 'admin_login')->name('admin.login');
-
+    Route::any('/admin-forget-password', 'admin_forget_password')->name('admin.forget.password');
+    Route::get('/admin-reset-password/{id}', 'admin_reset_password')->name('admin.reset.password');
+    Route::any('/admin-update-password', 'admin_update_password')->name('admin.forget.update');
+    
 });
 
 
