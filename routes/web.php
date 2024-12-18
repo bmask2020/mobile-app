@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\BrandController;
+
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -22,11 +24,20 @@ Route::controller(DashboardController::class)->group(function () {
 });
 
 
+Route::controller(BrandController::class)->group(function () {
+
+    Route::middleware(['auth', 'verified','role:admin'])->group(function () {
+
+        Route::get('/add-brand', 'add_brand')->name('add.brand');
+
+    });
+
+});
 
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified','role:admin'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
