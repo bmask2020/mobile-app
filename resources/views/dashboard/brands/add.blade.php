@@ -18,14 +18,25 @@
                     </div>
                     <div class="card-body">
                         <div class="basic-form">
-                            <form>
+                            @if( Session::has('msg') )
+                            <p class="text-danger text-center">{{ Session::get('msg') }}</p>
+                            @endif
+
+                            <form action="{{ route('store.brand') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
                                 <div class="form-group">
                                     <label for="name">Brand Name</label>
-                                    <input type="text" id="name" class="form-control input-default " placeholder="Brand Name">
+                                    <input type="text" name="name" id="name" class="form-control input-default " placeholder="Brand Name">
+                                    @error('name')
+                                        <span>{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="img">Brand Image</label>
-                                    <input type="file" class="form-control input-rounded" id="img" placeholder="input-rounded">
+                                    <input type="file" name="img" class="form-control input-rounded" id="img" placeholder="input-rounded">
+                                    @error('img')
+                                    <span>{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Save Brand</button>

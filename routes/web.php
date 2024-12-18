@@ -29,7 +29,8 @@ Route::controller(BrandController::class)->group(function () {
     Route::middleware(['auth', 'verified','role:admin'])->group(function () {
 
         Route::get('/add-brand', 'add_brand')->name('add.brand');
-
+        Route::any('/store-brand', 'store_brand')->name('store.brand');
+        
     });
 
 });
