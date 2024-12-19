@@ -64,4 +64,13 @@ class BrandController extends Controller
 
     } // End Method
 
+
+
+    public function view_brand() {
+
+        $data = Brand::latest()->paginate(10);
+
+        return view('dashboard.brands.index', compact('data'));
+
+    } // End Method
 }

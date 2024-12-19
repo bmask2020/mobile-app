@@ -11,6 +11,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgetPassword;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Brand;
 
 class DashboardController extends Controller
 {
@@ -118,5 +119,13 @@ class DashboardController extends Controller
 
        return redirect()->back()->with('msg', 'Your Password is Updated Success');
        
+    } // End Method
+
+
+    public function dashboard() {
+
+        $Brand = Brand::count('id');
+        return view('dashboard', compact('Brand'));
+
     } // End Method
 }

@@ -20,6 +20,11 @@ Route::controller(DashboardController::class)->group(function () {
     Route::any('/admin-forget-password', 'admin_forget_password')->name('admin.forget.password');
     Route::get('/admin-reset-password/{id}', 'admin_reset_password')->name('admin.reset.password');
     Route::any('/admin-update-password', 'admin_update_password')->name('admin.forget.update');
+
+    Route::middleware(['auth', 'verified','role:admin'])->group(function () {
+
+        Route::get('/dashboard', 'dashboard')->name('dashboard');
+    });
     
 });
 
@@ -30,15 +35,13 @@ Route::controller(BrandController::class)->group(function () {
 
         Route::get('/add-brand', 'add_brand')->name('add.brand');
         Route::any('/store-brand', 'store_brand')->name('store.brand');
+        Route::get('/view-brand', 'view_brand')->name('view.brand');
         
     });
 
 });
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified','role:admin'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
