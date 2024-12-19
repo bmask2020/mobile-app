@@ -56,7 +56,7 @@
                                         </td>
 
                                         <td>
-                                            <a href="" type="button" class="btn btn-danger">Delete</a>
+                                            <a href="{{ route('delete.brand', ['id' => $val->id]) }}" type="button" class="btn btn-danger">Delete</a>
                                         </td>
 
                                     </tr>
