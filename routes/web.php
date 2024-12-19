@@ -36,7 +36,8 @@ Route::controller(BrandController::class)->group(function () {
         Route::get('/add-brand', 'add_brand')->name('add.brand');
         Route::any('/store-brand', 'store_brand')->name('store.brand');
         Route::get('/view-brand', 'view_brand')->name('view.brand');
-        
+        Route::get('/edit-brand/{id}', 'edit_brand')->name('edit.brand');
+        Route::any('/update-brand', 'update_brand')->name('update.brand');
     });
 
 });

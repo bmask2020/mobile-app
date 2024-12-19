@@ -52,7 +52,7 @@
                                         </td>
                                       
                                         <td>
-                                            <a href="" class="btn btn-warning">Edit</a>
+                                            <a href="{{ route('edit.brand', ['id' => $val->id]) }}" class="btn btn-warning">Edit</a>
                                         </td>
 
                                         <td>
