@@ -6,6 +6,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ProductController;
 
 
 Route::get('/', function () {
@@ -39,6 +40,18 @@ Route::controller(BrandController::class)->group(function () {
         Route::get('/edit-brand/{id}', 'edit_brand')->name('edit.brand');
         Route::any('/update-brand', 'update_brand')->name('update.brand');
         Route::get('/delete-brand/{id}', 'delete_brand')->name('delete.brand');
+        
+    });
+
+});
+
+
+Route::controller(ProductController::class)->group(function () {
+
+    Route::middleware(['auth', 'verified','role:admin'])->group(function () {
+
+        Route::get('/add-product', 'add_product')->name('add.product');
+       
         
     });
 

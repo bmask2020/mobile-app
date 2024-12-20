@@ -24,17 +24,16 @@
                 
                 </ul>
             </li>
+
+
             <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
                     <i class="flaticon-061-puzzle"></i>
-                    <span class="nav-text">Charts</span>
+                    <span class="nav-text">Products</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="./chart-flot.html">Flot</a></li>
-                    <li><a href="./chart-morris.html">Morris</a></li>
-                    <li><a href="./chart-chartjs.html">Chartjs</a></li>
-                    <li><a href="./chart-chartist.html">Chartist</a></li>
-                    <li><a href="./chart-sparkline.html">Sparkline</a></li>
-                    <li><a href="./chart-peity.html">Peity</a></li>
+                    <li><a href="./chart-flot.html">View</a></li>
+                    <li><a href="{{ route('add.product') }}">Add Product</a></li>
+                   
                 </ul>
             </li>
             <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
