@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgetPassword;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Brand;
+use App\Models\Product;
 
 class DashboardController extends Controller
 {
@@ -125,7 +126,8 @@ class DashboardController extends Controller
     public function dashboard() {
 
         $Brand = Brand::count('id');
-        return view('dashboard', compact('Brand'));
+        $productInStock = Product::where('avalibale', '=', 1)->count('id');
+        return view('dashboard', compact('Brand', 'productInStock'));
 
     } // End Method
 }

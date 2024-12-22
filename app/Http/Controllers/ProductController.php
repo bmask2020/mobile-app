@@ -12,9 +12,8 @@ class ProductController extends Controller
     
     public function add_product() {
 
-        $brand = Brand::all();
-
-        return view('dashboard.products.add', compact('brand'));
+        $brand          = Brand::all();
+        return view('dashboard.products.add', compact('brand', 'productInStock'));
 
     } // End Method
 
@@ -75,6 +74,16 @@ class ProductController extends Controller
 
             return redirect()->route('login');
         }
+
+    } // End Method
+
+
+
+    public function view_products() {
+
+        $data = Product::latest()->paginate(10);
+
+        return view('dashboard.products.view', compact('data'));
 
     } // End Method
 }
