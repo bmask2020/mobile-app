@@ -53,6 +53,7 @@ Route::controller(ProductController::class)->group(function () {
         Route::get('/add-product', 'add_product')->name('add.product');
         Route::any('/store-product', 'store_product')->name('store.product');
         Route::get('/view-products', 'view_products')->name('view.products');
+        Route::get('/edit-products/{id}', 'edit_products')->name('edit.product');
         
     });
 

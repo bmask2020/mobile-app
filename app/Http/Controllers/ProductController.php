@@ -86,4 +86,15 @@ class ProductController extends Controller
         return view('dashboard.products.view', compact('data'));
 
     } // End Method
+
+
+
+    public function edit_products($id) {
+
+        $data   = Product::findOrFail($id);
+        $brand  = Brand::all();
+
+        return view('dashboard.products.edit', compact('data', 'brand'));
+
+    } // End Method
 }
