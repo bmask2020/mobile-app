@@ -97,4 +97,58 @@ class ProductController extends Controller
         return view('dashboard.products.edit', compact('data', 'brand'));
 
     } // End Method
+
+
+    public function update_products(Request $request) {
+
+        if($request->isMethod('post')) {
+
+            $validated = $request->validate([
+                'pro_name'      => 'required',
+                'price'         => 'required',
+                'brand'         => 'required',
+                'avalibale'     => 'required'
+            ]);
+
+            $pro_name       = strip_tags($request->pro_name);
+            $price          = strip_tags($request->price);
+            $brand          = strip_tags($request->brand);
+            $avalibale      = strip_tags($request->avalibale);
+            $id             = $request->id;
+
+            $product        = Product::findOrFail($id);
+
+            if($request->hasFile('img')) {
+
+                unlink($product->img);
+
+                $img = $request->file('img');
+
+                $gen = hexdec(uniqid());
+                $ex  = strtolower($img->getClientOriginalExtension());
+                $photo = $gen. '.' . $ex;
+                $location = 'product/';
+
+                $source = $location . $photo;
+                $img->move($location, $photo);
+
+                $product->img = $source;
+                
+            }
+
+            $product->pro_name      = $pro_name;
+            $product->price         = $price;
+            $product->brand         = $brand;
+            $product->avalibale     = $avalibale;
+            $product->save();
+
+            return redirect()->back()->with('msg', 'Product Updated Success');
+           
+
+        } else {
+
+            return redirect()->route('login');
+        }
+
+    } // End Method
 }
