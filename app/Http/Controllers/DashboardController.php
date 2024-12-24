@@ -127,7 +127,9 @@ class DashboardController extends Controller
 
         $Brand = Brand::count('id');
         $productInStock = Product::where('avalibale', '=', 1)->count('id');
-        return view('dashboard', compact('Brand', 'productInStock'));
+        $productOutStock = Product::where('avalibale', '=', 0)->count('id');
+
+        return view('dashboard', compact('Brand', 'productInStock', 'productOutStock'));
 
     } // End Method
 }

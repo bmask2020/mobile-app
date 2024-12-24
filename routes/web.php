@@ -53,9 +53,9 @@ Route::controller(ProductController::class)->group(function () {
         Route::get('/add-product', 'add_product')->name('add.product');
         Route::any('/store-product', 'store_product')->name('store.product');
         Route::get('/view-products', 'view_products')->name('view.products');
-        Route::get('/edit-products/{id}', 'edit_products')->name('edit.product');
-        Route::any('/update-product', 'update_products')->name('update.product');
-        
+        Route::get('/edit-products/{id}', 'edit_product')->name('edit.product');
+        Route::any('/update-product', 'update_product')->name('update.product');
+        Route::get('/delete-product/{id}', 'delete_product')->name('delete.product');
         
     });
 

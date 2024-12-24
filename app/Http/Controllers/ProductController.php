@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function add_product() {
 
         $brand          = Brand::all();
-        return view('dashboard.products.add', compact('brand', 'productInStock'));
+        return view('dashboard.products.add', compact('brand'));
 
     } // End Method
 
@@ -89,7 +89,7 @@ class ProductController extends Controller
 
 
 
-    public function edit_products($id) {
+    public function edit_product($id) {
 
         $data   = Product::findOrFail($id);
         $brand  = Brand::all();
@@ -99,7 +99,7 @@ class ProductController extends Controller
     } // End Method
 
 
-    public function update_products(Request $request) {
+    public function update_product(Request $request) {
 
         if($request->isMethod('post')) {
 
@@ -149,6 +149,20 @@ class ProductController extends Controller
 
             return redirect()->route('login');
         }
+
+    } // End Method
+
+
+    public function delete_product($id) {
+
+        $data = Product::findOrFail($id);
+
+        unlink($data->img);
+
+        $data->delete();
+
+        return redirect()->back()->with('msg', 'Product Deleted Success');
+      
 
     } // End Method
 }

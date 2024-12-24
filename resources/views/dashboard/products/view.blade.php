@@ -25,7 +25,9 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                   
+                    @if( Session::has('msg') )
+                        <p class="text-danger text-center">{{ Session::get('msg') }}</p>
+                    @endif
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-responsive-md">
@@ -68,7 +70,7 @@
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item" href="{{ route('edit.product', ['id' => $val->id]) }}">Edit</a>
-                                                        <a class="dropdown-item" href="#">Delete</a>
+                                                        <a class="dropdown-item" href="{{ route('delete.product', ['id' => $val->id]) }}">Delete</a>
                                                     </div>
                                                 </div>
                                             </td>
