@@ -46,4 +46,20 @@ class DashboardController extends Controller
         ], 200);
 
     } // End Method
+
+
+    public function products_view($id) {
+
+        $data = Product::findOrFail($id);
+
+        return response()->json([
+
+            'status'    => true,
+            'message'   => 'Product View',
+            'product'   => $data
+
+        ]);
+
+    } // End Method
+
 }

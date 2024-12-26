@@ -77,6 +77,10 @@
                                     @enderror
                                 </div>
 
+                                <textarea name="details" id="" class="form-control" cols="30" rows="10">
+                                  
+                                </textarea>
+                                <br><br>
                                 <button type="submit" class="btn btn-primary">Save Product</button>
 
                             </form>

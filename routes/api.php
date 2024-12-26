@@ -14,5 +14,7 @@ Route::controller(DashboardController::class)->group(function () {
 
     Route::get('home', 'home');
     Route::get('products-by-brand/{brand}', 'products_by_brand');
+    
+    Route::get('product-view/{id}', 'products_view');
 
 });

@@ -36,6 +36,7 @@ class ProductController extends Controller
             $price      = strip_tags($request->price);
             $brand      = strip_tags($request->brand);
             $avalibale  = strip_tags($request->avalibale);
+            $details    = strip_tags($request->details);
 
             $img = $request->file('img');
             
@@ -54,6 +55,7 @@ class ProductController extends Controller
                 'brand'         => $brand,
                 'img'           => $source,
                 'avalibale'     => $avalibale,
+                'details'       => $details,
                 'created_at'    => Carbon::now()
 
             ]);
@@ -115,6 +117,7 @@ class ProductController extends Controller
             $brand          = strip_tags($request->brand);
             $avalibale      = strip_tags($request->avalibale);
             $id             = $request->id;
+            $details        = strip_tags($request->details);
 
             $product        = Product::findOrFail($id);
 
@@ -140,6 +143,7 @@ class ProductController extends Controller
             $product->price         = $price;
             $product->brand         = $brand;
             $product->avalibale     = $avalibale;
+            $product->details       = $details;
             $product->save();
 
             return redirect()->back()->with('msg', 'Product Updated Success');

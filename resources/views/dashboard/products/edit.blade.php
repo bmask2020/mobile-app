@@ -77,6 +77,11 @@
                                         <input type="file" name="img" class="form-control" id="">
                                 </div>
 
+
+                                <textarea name="details" id="" class="form-control" cols="30" rows="10">
+                                    {{ $data->details }}
+                                </textarea>
+                                <br><br>
                                 <button type="submit" class="btn btn-primary">Update Product</button>
                             </form>
                         </div>
