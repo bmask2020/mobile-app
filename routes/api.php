@@ -17,4 +17,6 @@ Route::controller(DashboardController::class)->group(function () {
     
     Route::get('product-view/{id}', 'products_view');
 
+    Route::get('filters/{filter}', 'filters');
+
 });

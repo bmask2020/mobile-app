@@ -62,4 +62,36 @@ class DashboardController extends Controller
 
     } // End Method
 
+
+    public function filters($filter) {
+
+        if($filter == 'low') {
+
+            $data = Product::orderBy('price', 'asc')->get();
+
+        } else if($filter == 'high') {
+
+            $data = Product::orderBy('price', 'desc')->get();
+
+        } else if($filter == 'new') {
+
+            $data = Product::latest()->get();
+
+
+        } else if($filter == 'old') {
+
+            $data = Product::all();
+
+        }
+
+        return response()->json([
+
+            'status'    => true,
+            'message'   => 'Product Filters',
+            'product'   => $data
+
+        ]);
+
+
+    } // End Method
 }
