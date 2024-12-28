@@ -19,6 +19,8 @@ Route::controller(DashboardController::class)->group(function () {
 
     Route::get('filters/{filter}', 'filters');
 
+    Route::get('filters/{brand}/{filter}', 'filters_by_brand');
+
 });
 
 

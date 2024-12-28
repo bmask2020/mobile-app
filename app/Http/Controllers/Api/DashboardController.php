@@ -94,4 +94,38 @@ class DashboardController extends Controller
 
 
     } // End Method
+
+
+    public function filters_by_brand($brand, $filter) { 
+
+        $Brand = Brand::findorFail($brand);
+
+        if($filter == 'low') {
+
+            $data = Product::where('brand', '=', $brand)->orderBy('price', 'asc')->get();
+
+        } else if($filter == 'high') {
+
+            $data = Product::where('brand', '=', $brand)->orderBy('price', 'desc')->get();
+
+        } else if($filter == 'new') {
+
+            $data = Product::where('brand', '=', $brand)->latest()->get();
+
+        } else if($filter == 'old') {
+
+            $data = Product::where('brand', '=', $brand)->get();
+
+        }
+
+        return response()->json([
+
+            'status'    => true,
+            'message'   => 'Product Filters By Brand',
+            'product'   => $data
+
+        ]);
+
+    } // End Method
+
 }
