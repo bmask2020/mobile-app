@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Brand;
 use App\Models\Product;
+use App\Models\Favorite;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -125,6 +127,51 @@ class DashboardController extends Controller
             'product'   => $data
 
         ]);
+
+    } // End Method
+
+
+    public function add_favorite($product_id) {
+
+        $user = auth('sanctum')->user();
+
+        $check = Favorite::where([
+
+            ['user_id', '=', $user->id],
+            ['product_id', '=', $product_id]
+
+        ])->first();
+
+
+        if(isset($check)) {
+
+            return response()->json([
+
+                'status'    => false,
+                'message'   => 'You Added This Product Before',
+                'product'   => null
+    
+            ]);
+
+        } else {
+
+            $data = new Favorite;
+            $data->product_id = $product_id;
+            $data->user_id = $user->id;
+            $data->created_at = Carbon::now();
+            $data->save();
+
+            return response()->json([
+
+                'status'    => true,
+                'message'   => 'Product Added To Favorite Successfully',
+                'product'   => $data
+    
+            ]);
+
+
+        }
+        
 
     } // End Method
 
