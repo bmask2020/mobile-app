@@ -8,6 +8,7 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Favorite;
 use Carbon\Carbon;
+use DB;
 
 class DashboardController extends Controller
 {
@@ -172,6 +173,28 @@ class DashboardController extends Controller
 
         }
         
+
+    } // End Method
+
+
+
+    public function fetch_favorite() {
+
+        $user = auth('sanctum')->user();
+
+        $data = DB::table('favorites')
+        ->where('user_id', '=', $user->id)
+        ->join('products', 'favorites.product_id', 'products.id')
+        ->select('products.*')
+        ->get();
+
+        return response()->json([
+
+            'status'    => true,
+            'message'   => 'User Favorite',
+            'user'   => $data
+
+        ]);
 
     } // End Method
 

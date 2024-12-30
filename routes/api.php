@@ -23,6 +23,7 @@ Route::controller(DashboardController::class)->group(function () {
 
     Route::get('add-favorite/{product_id}', 'add_favorite')->middleware('auth:sanctum');
 
+    Route::get('fetch-favorite','fetch_favorite')->middleware('auth:sanctum');
 });
 
 
