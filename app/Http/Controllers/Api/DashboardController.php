@@ -8,7 +8,7 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Favorite;
 use Carbon\Carbon;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -195,6 +195,45 @@ class DashboardController extends Controller
             'user'   => $data
 
         ]);
+
+    } // End Method
+
+
+
+    public function remove_favorite($id) {
+
+        $user = auth('sanctum')->user();
+
+        $data = Favorite::where([
+
+            ['user_id', '=', $user->id],
+            ['product_id', '=', $id]
+
+        ])->delete();
+
+        if($data == true) {
+
+            return response()->json([
+
+                'status'    => true,
+                'message'   => 'Product Removed From Favorite Successfully',
+            
+    
+            ]);
+
+        } else {
+
+            return response()->json([
+
+                'status'    => true,
+                'message'   => 'Some Thing Wrong Plz Try Again',
+             
+    
+            ]);
+
+
+        }
+      
 
     } // End Method
 
