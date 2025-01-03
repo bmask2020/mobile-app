@@ -44,7 +44,82 @@ class AuthController extends Controller
             'message'   => 'new Account',
             'data'      => $user->createToken($email)->plainTextToken
 
-        ]);
+        ], 200);
+
+    } // End Method
+
+
+
+    public function login(Request $request) {
+
+        if($request->isMethod('post')) { 
+
+            $data = $request->validate([
+
+                'email'     => 'required|email',
+                'password'  => 'required'
+    
+            ]);
+
+
+            $email = strip_tags($data['email']);
+            $password = strip_tags($data['password']);
+
+            $user = User::where('email', $email)->first();
+
+            if(isset($user)) {
+
+                $check = Hash::check($password, $user->password);
+
+                if($check == true) { 
+
+
+                    return response()->json([
+
+                        'status'    => true,
+                        'message'   => 'Login Page',
+                        'data'      => $user->createToken($email)->plainTextToken
+        
+                    ], 200);
+
+                } else {
+
+                    return response()->json([
+
+                        'status'    => false,
+                        'message'   => 'Password Not Correct',
+                        'data'      => null
+        
+                    ], 200);
+
+                }
+             
+
+            } else {
+
+                return response()->json([
+
+                    'status'    => false,
+                    'message'   => 'The Email Not Found',
+                    'data'      => null
+    
+                ], 200);
+
+
+            }
+         
+
+        } else {
+
+            return response()->json([
+
+                'status'    => false,
+                'message'   => 'This Page Not Found',
+                'data'      =>  null
+
+            ], 404);
+
+        }
 
     } // End Method
 }
