@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Favorite;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Models\Cart;
 
 class DashboardController extends Controller
 {
@@ -61,7 +62,7 @@ class DashboardController extends Controller
             'message'   => 'Product View',
             'product'   => $data
 
-        ]);
+        ], 200);
 
     } // End Method
 
@@ -93,7 +94,7 @@ class DashboardController extends Controller
             'message'   => 'Product Filters',
             'product'   => $data
 
-        ]);
+        ], 200);
 
 
     } // End Method
@@ -127,7 +128,7 @@ class DashboardController extends Controller
             'message'   => 'Product Filters By Brand',
             'product'   => $data
 
-        ]);
+        ], 200);
 
     } // End Method
 
@@ -152,7 +153,7 @@ class DashboardController extends Controller
                 'message'   => 'You Added This Product Before',
                 'product'   => null
     
-            ]);
+            ], 200);
 
         } else {
 
@@ -168,7 +169,7 @@ class DashboardController extends Controller
                 'message'   => 'Product Added To Favorite Successfully',
                 'product'   => $data
     
-            ]);
+            ], 200);
 
 
         }
@@ -194,7 +195,7 @@ class DashboardController extends Controller
             'message'   => 'User Favorite',
             'user'   => $data
 
-        ]);
+        ], 200);
 
     } // End Method
 
@@ -219,7 +220,7 @@ class DashboardController extends Controller
                 'message'   => 'Product Removed From Favorite Successfully',
             
     
-            ]);
+            ], 200);
 
         } else {
 
@@ -229,11 +230,90 @@ class DashboardController extends Controller
                 'message'   => 'Some Thing Wrong Plz Try Again',
              
     
-            ]);
+            ], 200);
 
 
         }
       
+
+    } // End Method
+
+
+
+    public function add_cart(Request $request) {
+
+        if($request->isMethod('post')) {
+
+            $data = $request->validate([
+
+                'product'   => 'required',
+                'price'     => 'required',
+                'quantity'  => 'required'
+
+            ]);
+
+
+           
+            $user       = auth('sanctum')->user();
+            $product    = strip_tags($data['product']);
+            $price      = strip_tags($data['price']);
+            $quantity   = strip_tags($data['quantity']);
+
+            $check = Cart::where([
+
+                ['user_id', '=', $user->id],
+                ['product', '=', $product]
+
+            ])->first();
+
+            if(isset($check)) {
+
+                return response()->json([
+
+                    'status'    => true,
+                    'message'   => 'This Product Added To Cart Before',
+                 
+        
+                ], 200);
+
+
+            } else {
+
+
+                $data = Cart::insert([
+
+                    'user_id'       => $user->id,
+                    'product'       => $product,
+                    'price'         => $price,
+                    'quantity'      => $quantity,
+                    'created_at'    => Carbon::now()
+    
+                ]);
+
+
+                return response()->json([
+
+                    'status'    => true,
+                    'message'   => 'The Product Add To Cart Successfully',
+                 
+        
+                ], 200);
+    
+
+            }
+          
+
+        } else {
+
+            return response()->json([
+
+                'status'    => false,
+                'message'   => 'This Page Not Found',
+             
+    
+            ], 404);
+
+        }
 
     } // End Method
 
