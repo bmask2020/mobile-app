@@ -29,6 +29,8 @@ Route::controller(DashboardController::class)->group(function () {
 
     Route::any('add-cart','add_cart')->middleware('auth:sanctum');
 
+    Route::get('cart-fetch', 'cart_fetch')->middleware('auth:sanctum');
+
 });
 
 
