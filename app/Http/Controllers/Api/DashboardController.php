@@ -326,7 +326,7 @@ class DashboardController extends Controller
         $data = DB::table('carts')
         ->where('user_id', '=', $user->id)
         ->join('products', 'carts.product', 'products.id')
-        ->select('carts.id' ,'carts.price', 'carts.quantity', 'carts.created_at', 'products.pro_name', 'products.img')
+        ->select('carts.id', 'carts.price', 'carts.quantity', 'carts.created_at', 'products.pro_name', 'products.img')
         ->latest()
         ->paginate(10);
 
@@ -338,6 +338,37 @@ class DashboardController extends Controller
 
         ], 200);
 
+    } // End Method
+
+
+
+    public function cart_remove($id) {
+
+        $user  = auth('sanctum')->user();
+
+        $check = Cart::where('id','=', $id)->first();
+
+        if(isset($check)) {
+
+            $check->delete();
+
+            return response()->json([
+
+                'status'    => true,
+                'message'   => 'Product Deleted From Cart Successfully',
+    
+            ], 200);
+
+        } else {
+
+            return response()->json([
+
+                'status'    => false,
+                'message'   => 'The Product Not Found in Your Cart',
+    
+            ], 200);
+
+        }
     } // End Method
 
 }

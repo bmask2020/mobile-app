@@ -31,6 +31,8 @@ Route::controller(DashboardController::class)->group(function () {
 
     Route::get('cart-fetch', 'cart_fetch')->middleware('auth:sanctum');
 
+    Route::get('cart-remove/{id}', 'cart_remove');
+    
 });
 
 
