@@ -344,8 +344,6 @@ class DashboardController extends Controller
 
     public function cart_remove($id) {
 
-        $user  = auth('sanctum')->user();
-
         $check = Cart::where('id','=', $id)->first();
 
         if(isset($check)) {
@@ -369,6 +367,22 @@ class DashboardController extends Controller
             ], 200);
 
         }
+    } // End Method
+
+
+    public function cart_remove_all() {
+
+        $user  = auth('sanctum')->user();
+
+        $data = Cart::where('user_id', '=', $user->id)->delete();
+
+        return response()->json([
+
+            'status'    => true,
+            'message'   => 'Products Deleted From Cart Successfully',
+
+        ], 200);
+
     } // End Method
 
 }
