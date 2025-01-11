@@ -10,6 +10,7 @@ use App\Models\Favorite;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\Cart;
+use App\Models\PhoneVerify;
 
 class DashboardController extends Controller
 {
@@ -376,13 +377,103 @@ class DashboardController extends Controller
 
         $data = Cart::where('user_id', '=', $user->id)->delete();
 
-        return response()->json([
+        if($data > 0) {
 
-            'status'    => true,
-            'message'   => 'Products Deleted From Cart Successfully',
+            return response()->json([
 
-        ], 200);
+                'status'    => true,
+                'message'   => 'Products Deleted From Cart Successfully',
+    
+            ], 200);
+
+        } else {
+
+            return response()->json([
+
+                'status'    => true,
+                'message'   => 'There are not Found Products in Your Cart',
+    
+            ], 200);
+
+        }
+       
 
     } // End Method
+
+
+
+    public function phone_verify(Request $request) {
+
+        if($request->isMethod('post')) {
+
+            $data = $request->validate([
+
+                'phone'=> 'required|numeric',
+
+            ]);
+
+            $user  = auth('sanctum')->user();
+            $phone = substr($data['phone'], 1);
+            
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://api.authentica.sa/api/sdk/v1/sendOTP');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Accept: application/json',
+                'X-Authorization: $2y$10$FtJC93GNzLOvDW5zbWn2eer.qVQURhK29wIzsQbc38J/fy1C4Q5L6',
+                'Content-Type: application/json',
+            ]);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, "{\n    \"phone\":\"+966$phone\",\n    \"method\":\"sms\",\n    \"sender_name\": \"\",\n    \"number_of_digits\": 4,\n    \"otp_format\": \"numeric\",\n    \"is_fallback_on\": 0 \n}");
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+            $response = curl_exec($ch);
+
+            curl_close($ch);
+
+            $res = json_decode($response, true);
+
+            if($res["success"] == true) { 
+
+                PhoneVerify::insert([
+
+                    'user_id'   => $user->id,
+                    'phone'     => $data['phone'],
+                    'created_at'    => Carbon::now()
+                ]);
+
+               
+
+                return response()->json([
+
+                    'status'    => true,
+                    'message'   => 'The OTP Sent To Your Phone Number',
+            
+                ], 200);
+               
+            } else {
+
+                return response()->json([
+
+                    'status'    => False,
+                    'message'   => 'There is Wrong Plz Try Again',
+        
+                ], 200);
+            }
+
+            
+
+        } else {
+
+            return response()->json([
+
+                'status'    => False,
+                'message'   => 'This Page Not Found',
+    
+            ], 404);
+
+        }
+    }
 
 }

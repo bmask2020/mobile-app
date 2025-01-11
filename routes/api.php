@@ -31,9 +31,11 @@ Route::controller(DashboardController::class)->group(function () {
 
     Route::get('cart-fetch', 'cart_fetch')->middleware('auth:sanctum');
 
-    Route::get('cart-remove/{id}', 'cart_remove');
+    Route::get('cart-remove/{id}', 'cart_remove')->middleware('auth:sanctum');
 
-    Route::get('/cart-remove-all', 'cart_remove_all');
+    Route::get('/cart-remove-all', 'cart_remove_all')->middleware('auth:sanctum');
+
+    Route::any('/phone-verify', 'phone_verify')->middleware('auth:sanctum');
     
 });
 
