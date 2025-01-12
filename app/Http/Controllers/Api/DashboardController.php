@@ -436,6 +436,8 @@ class DashboardController extends Controller
 
             if($res["success"] == true) { 
 
+                PhoneVerify::where('user_id', '=', $user->id)->delete();
+
                 PhoneVerify::insert([
 
                     'user_id'   => $user->id,
@@ -474,6 +476,82 @@ class DashboardController extends Controller
             ], 404);
 
         }
-    }
+
+    } // End Method
+
+
+
+    public function otp_verify(Request $request) {
+
+        if($request->isMethod('post')) {
+
+            $data = $request->validate([
+                'otp' => 'required|numeric'
+            ]);
+
+            $user  = auth('sanctum')->user();
+            $otp = $data['otp'];
+
+            $userPhone = PhoneVerify::where('user_id', '=', $user->id)->first();
+
+            $phone = $userPhone->phone;
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://api.authentica.sa/api/sdk/v1/verifyOTP');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'X-Authorization: $2y$10$FtJC93GNzLOvDW5zbWn2eer.qVQURhK29wIzsQbc38J/fy1C4Q5L6',
+                'Accept: application/json',
+                'Content-Type: application/json',
+            ]);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, "{\n    \"phone\":\"+966$phone\",\n    \"otp\":\"$otp\"\n}");
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+            $response = curl_exec($ch);
+
+            curl_close($ch);
+
+            $res = json_decode($response, true);
+
+
+            if($res['status'] == true) {
+
+                $userPhone->verify = true;
+                $userPhone->save();
+
+                return response()->json([
+
+                    'status'    => true,
+                    'message'   => "Thank You For Verify Your Phone",
+        
+                ], 200);
+
+
+            } else {
+
+                return response()->json([
+
+                    'status'    => true,
+                    'message'   => "There is Something Wrong Plz Try Again",
+        
+                ], 200);
+
+
+            }
+
+
+
+        } else {
+
+            return response()->json([
+
+                'status'    => False,
+                'message'   => 'This Page Not Found',
+    
+            ], 404);
+        }
+
+    } // End Method
 
 }
