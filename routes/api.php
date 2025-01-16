@@ -33,11 +33,13 @@ Route::controller(DashboardController::class)->group(function () {
 
     Route::get('cart-remove/{id}', 'cart_remove')->middleware('auth:sanctum');
 
-    Route::get('/cart-remove-all', 'cart_remove_all')->middleware('auth:sanctum');
+    Route::get('cart-remove-all', 'cart_remove_all')->middleware('auth:sanctum');
 
-    Route::any('/phone-verify', 'phone_verify')->middleware('auth:sanctum');
+    Route::any('phone-verify', 'phone_verify')->middleware('auth:sanctum');
    
-    Route::any('/otp-verify', 'otp_verify');
+    Route::any('otp-verify', 'otp_verify');
+
+    Route::get('create-orders', 'create_orders');
     
 });
 

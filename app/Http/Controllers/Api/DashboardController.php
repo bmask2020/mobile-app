@@ -554,4 +554,34 @@ class DashboardController extends Controller
 
     } // End Method
 
+
+    public function create_orders() {
+
+        $user  = auth('sanctum')->user();
+
+        $Cart = Cart::where('user_id', '=', $user->id)->get();
+
+        if(count($Cart) > 0) {
+
+            
+            return response()->json([
+
+                'status'    => true,
+                'cart'      => $Cart,
+    
+            ], 200);
+
+        } else {
+
+            return response()->json([
+
+                'status'    => true,
+                'message'   => 'You Not Have Any Products in Your Cart',
+    
+            ], 200);
+
+        }
+       
+    }
+
 }
