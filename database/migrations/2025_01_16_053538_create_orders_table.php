@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('product_id');
             $table->integer('quantity');
             $table->float('price');
-            $table->string('ref');
+            $table->string('ref')->nullable();
             $table->boolean('status')->default(false);
             $table->timestamps();
         });

@@ -41,6 +41,11 @@ Route::controller(DashboardController::class)->group(function () {
 
     Route::get('create-orders', 'create_orders');
     
+    Route::get('authorised/{id}', 'authorised');
+
+    Route::get('declined/{id}', 'declined');
+
+    Route::get('cancelled/{id}', 'cancelled');
 });
 
 
