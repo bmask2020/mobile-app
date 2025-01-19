@@ -590,7 +590,7 @@ class DashboardController extends Controller
                 'Content-Type: application/json',
                 'accept: application/json',
             ]);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "\n{\n  \"method\": \"create\",\n  \"store\": 00000,\n  \"authkey\": \"0000000000000\",\n  \"framed\": 1,\n  \"order\": {\n    \"cartid\": \"$user->id\",\n    \"test\": \"1\",\n    \"amount\": \"$orders_price\",\n    \"currency\": \"SAR\",\n    \"description\": \"My purchase\"\n  },\n  \"return\": {\n    \"authorised\": \"http://127.0.0.1:8000/api/authorised/$user->id\",\n    \"declined\": \"http://127.0.0.1:8000/api/declined/$user->id\",\n    \"cancelled\": \"http://127.0.0.1:8000/api/cancelled/$user->id\"\n  }\n}\n");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, "\n{\n  \"method\": \"create\",\n  \"store\": 000000,\n  \"authkey\": \"0000000000\",\n  \"framed\": 1,\n  \"order\": {\n    \"cartid\": \"$user->id\",\n    \"test\": \"1\",\n    \"amount\": \"$orders_price\",\n    \"currency\": \"SAR\",\n    \"description\": \"My purchase\"\n  },\n  \"return\": {\n    \"authorised\": \"http://127.0.0.1:8000/api/authorised/$user->id\",\n    \"declined\": \"http://127.0.0.1:8000/api/declined/$user->id\",\n    \"cancelled\": \"http://127.0.0.1:8000/api/cancelled/$user->id\"\n  }\n}\n");
 
             $response = curl_exec($ch);
 
@@ -601,10 +601,18 @@ class DashboardController extends Controller
             $url = $result['order']['url'];
             $ref = $result['order']['ref'];
 
+            Orders::where([
+                ['user_id', '=', $user->id],
+                ['status', '=', false]
+
+            ])->update([
+                'ref'   => $ref
+            ]);
+
             return response()->json([
 
                 'status'            => true,
-                'orders price'      => $url,
+                'order_url'         => $url,
     
             ], 200);
 
@@ -624,7 +632,57 @@ class DashboardController extends Controller
 
     public function authorised($id) {
 
-        return $id;
+        $orders = Orders::where([
+            ['user_id', '=', $id],
+        ])->latest()->first();
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://secure.telr.com/gateway/order.json');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'accept: application/json',
+        ]);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "\n{\n  \"method\": \"check\",\n  \"store\": 0000000,\n  \"authkey\": \"00000000\",\n  \"order\": {\n    \"ref\": \"$orders->ref\"\n  }\n}\n");
+
+        $response = curl_exec($ch);
+
+        curl_close($ch);
+
+        $result = json_decode($response, true);
+
+        $stauts = $result['order']['status']['text'];
+
+        if($stauts == 'Paid') {
+
+            Orders::where([
+
+                ['user_id', '=', $id],
+                ['status', '=', false]
+
+            ])->update([
+                'status'    => true
+            ]);
+
+            return response()->json([
+
+                'status'   => true,
+                'message'  => 'Thank You, Your Payment Successfully',
+    
+            ], 200);
+
+        } else {
+
+            return response()->json([
+
+                'status'   => false,
+                'message'  => 'Your Payment Not Complete',
+    
+            ], 200);
+
+        }
+      
 
     } // End Method
 
