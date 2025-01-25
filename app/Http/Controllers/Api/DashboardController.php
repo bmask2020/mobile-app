@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Cart;
 use App\Models\PhoneVerify;
 use App\Models\Orders;
+use App\Events\LiveChat;
 class DashboardController extends Controller
 {
    
@@ -725,5 +726,58 @@ class DashboardController extends Controller
         ], 200);
         
     } // End Method
+
+
+    public function orders_fetch() {
+
+        $user  = auth('sanctum')->user();
+
+        $data = DB::table('orders')
+        ->where([
+            ['user_id', '=', $user->id],
+            ['status', '=', 1]
+        ])
+        ->join('products', 'orders.product_id', 'products.id')
+        ->select('orders.quantity', 'orders.price', 'products.pro_name','products.img', 'orders.created_at')
+        ->latest()
+        ->paginate(10);
+
+        return response()->json([
+
+            'status'    => true,
+            'orders'    => $data,
+
+        ], 200);
+
+    } // End Method
+
+
+
+    public function live_chat(Request $request) {
+
+        if($request->isMethod('post')) { 
+
+            $message = strip_tags($request->message);
+
+            $pusher = new \Pusher\Pusher(
+                "0151b92565c624fbd709",
+                "7ace1df5295c21bebef4",
+                "1141262",
+                array('cluster' => 'eu')
+              );
+              
+              
+            $pusher->trigger('live-chat', 'my-event', $message);
+
+        } else {
+
+            return response()->json([
+
+                'status'    => false,
+                'message'   => "This Page Not Found",
+    
+            ], 404);
+        }
+    }
 
 }
