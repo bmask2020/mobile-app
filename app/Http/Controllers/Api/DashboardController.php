@@ -13,6 +13,7 @@ use App\Models\Cart;
 use App\Models\PhoneVerify;
 use App\Models\Orders;
 use App\Events\LiveChat;
+use App\Models\Support;
 class DashboardController extends Controller
 {
    
@@ -768,6 +769,44 @@ class DashboardController extends Controller
               
               
             $pusher->trigger('live-chat', 'my-event', $message);
+
+            if($pusher == true) {
+
+                $user  = auth('sanctum')->user();
+
+                $check = Support::where('sender', '=', $user->id)->first();
+
+                if(isset($check)) {
+
+                    $Support = new Support;
+                    $Support->message_no    = $check->message_no;
+                    $Support->sender        = $user->id;
+                    $Support->message       = $message;
+                    $Support->created_at    = Carbon::now();
+                    $Support->save();
+
+                } else {
+
+                    $randNo = rand(1000, 1000000);
+
+                    $Support = new Support;
+                    $Support->message_no    = $randNo;
+                    $Support->sender        = $user->id;
+                    $Support->message       = $message;
+                    $Support->created_at    = Carbon::now();
+                    $Support->save();
+                    
+                }
+               
+
+                return response()->json([
+
+                    'status'    => true,
+                    'message'   => "Your Message Sent Successfully",
+        
+                ], 200);
+
+            }
 
         } else {
 
