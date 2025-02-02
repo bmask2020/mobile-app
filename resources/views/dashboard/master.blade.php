@@ -13,9 +13,10 @@
 	<link href="{{ asset('/vendor/owl-carousel/owl.carousel.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
 	<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script>
-
+		var a = [];
+		
 		// Enable pusher logging - don't include this in production
 		Pusher.logToConsole = true;
 	
@@ -25,8 +26,23 @@
 	
 		var channel = pusher.subscribe('live-chat');
 		channel.bind('my-event', function(data) {
-		  alert(JSON.stringify(data));
+		//   console.log(JSON.stringify(data));
+
+			a.push(1);
+		
+			let sum = 0;
+
+			for (let i = 0; i < a.length; i++) {
+				sum += a[i];
+			}
+
+		
+			document.getElementById('count-message').innerHTML += sum;
+			
 		});
+
+		
+		
 	  </script>
 </head>
 <body>
@@ -57,7 +73,9 @@
         <!--**********************************
             Nav header end
         ***********************************-->
-		
+		@php
+			$support = DB::table('supports')->where('sender', '!=', 1)->get();
+		@endphp
 		<!--**********************************
             Chat box start
         ***********************************-->
@@ -65,9 +83,7 @@
 			<div class="chatbox-close"></div>
 			<div class="custom-tab-1">
 				<ul class="nav nav-tabs">
-					<li class="nav-item">
-						<a class="nav-link" data-toggle="tab" href="#notes">Notes</a>
-					</li>
+					
 					<li class="nav-item">
 						<a class="nav-link" data-toggle="tab" href="#alerts">Alerts</a>
 					</li>
@@ -79,200 +95,32 @@
 					<div class="tab-pane fade active show" id="chat" role="tabpanel">
 						<div class="card mb-sm-3 mb-md-0 contacts_card dz-chat-user-box">
 							<div class="card-header chat-list-header text-center">
-								<a href="#"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect fill="#000000" x="4" y="11" width="16" height="2" rx="1"/><rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) " x="4" y="11" width="16" height="2" rx="1"/></g></svg></a>
+								
 								<div>
 									<h6 class="mb-1">Chat List</h6>
-									<p class="mb-0">Show All</p>
+									
 								</div>
-								<a href="#"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"/><circle fill="#000000" cx="5" cy="12" r="2"/><circle fill="#000000" cx="12" cy="12" r="2"/><circle fill="#000000" cx="19" cy="12" r="2"/></g></svg></a>
+								
 							</div>
 							<div class="card-body contacts_body p-0 dz-scroll  " id="DZ_W_Contacts_Body">
 								<ul class="contacts">
-									<li class="name-first-letter">A</li>
+									@foreach($support as $val)
+
+									@php($user = DB::table('users')->where('id', '=', $val->sender)->first())
 									<li class="active dz-chat-user">
 										<div class="d-flex bd-highlight">
 											<div class="img_cont">
-												<img src="images/avatar/1.jpg" class="rounded-circle user_img" alt=""/>
+												<img src="{{ asset('/images/user.jpg') }}" class="rounded-circle user_img" alt=""/>
 												<span class="online_icon"></span>
 											</div>
 											<div class="user_info">
-												<span>Archie Parker</span>
-												<p>Kalid is online</p>
+												<span>{{ mb_substr($val->message, 0, 10) }}</span>
+												<p>{{ $user->name }}</p>
 											</div>
 										</div>
 									</li>
-									<li class="dz-chat-user">
-										<div class="d-flex bd-highlight">
-											<div class="img_cont">
-												<img src="images/avatar/2.jpg" class="rounded-circle user_img" alt=""/>
-												<span class="online_icon offline"></span>
-											</div>
-											<div class="user_info">
-												<span>Alfie Mason</span>
-												<p>Taherah left 7 mins ago</p>
-											</div>
-										</div>
-									</li>
-									<li class="dz-chat-user">
-										<div class="d-flex bd-highlight">
-											<div class="img_cont">
-												<img src="images/avatar/3.jpg" class="rounded-circle user_img" alt=""/>
-												<span class="online_icon"></span>
-											</div>
-											<div class="user_info">
-												<span>AharlieKane</span>
-												<p>Sami is online</p>
-											</div>
-										</div>
-									</li>
-									<li class="dz-chat-user">
-										<div class="d-flex bd-highlight">
-											<div class="img_cont">
-												<img src="images/avatar/4.jpg" class="rounded-circle user_img" alt=""/>
-												<span class="online_icon offline"></span>
-											</div>
-											<div class="user_info">
-												<span>Athan Jacoby</span>
-												<p>Nargis left 30 mins ago</p>
-											</div>
-										</div>
-									</li>
-									<li class="name-first-letter">B</li>
-									<li class="dz-chat-user">
-										<div class="d-flex bd-highlight">
-											<div class="img_cont">
-												<img src="images/avatar/5.jpg" class="rounded-circle user_img" alt=""/>
-												<span class="online_icon offline"></span>
-											</div>
-											<div class="user_info">
-												<span>Bashid Samim</span>
-												<p>Rashid left 50 mins ago</p>
-											</div>
-										</div>
-									</li>
-									<li class="dz-chat-user">
-										<div class="d-flex bd-highlight">
-											<div class="img_cont">
-												<img src="images/avatar/1.jpg" class="rounded-circle user_img" alt=""/>
-												<span class="online_icon"></span>
-											</div>
-											<div class="user_info">
-												<span>Breddie Ronan</span>
-												<p>Kalid is online</p>
-											</div>
-										</div>
-									</li>
-									<li class="dz-chat-user">
-										<div class="d-flex bd-highlight">
-											<div class="img_cont">
-												<img src="images/avatar/2.jpg" class="rounded-circle user_img" alt=""/>
-												<span class="online_icon offline"></span>
-											</div>
-											<div class="user_info">
-												<span>Ceorge Carson</span>
-												<p>Taherah left 7 mins ago</p>
-											</div>
-										</div>
-									</li>
-									<li class="name-first-letter">D</li>
-									<li class="dz-chat-user">
-										<div class="d-flex bd-highlight">
-											<div class="img_cont">
-												<img src="images/avatar/3.jpg" class="rounded-circle user_img" alt=""/>
-												<span class="online_icon"></span>
-											</div>
-											<div class="user_info">
-												<span>Darry Parker</span>
-												<p>Sami is online</p>
-											</div>
-										</div>
-									</li>
-									<li class="dz-chat-user">
-										<div class="d-flex bd-highlight">
-											<div class="img_cont">
-												<img src="images/avatar/4.jpg" class="rounded-circle user_img" alt=""/>
-												<span class="online_icon offline"></span>
-											</div>
-											<div class="user_info">
-												<span>Denry Hunter</span>
-												<p>Nargis left 30 mins ago</p>
-											</div>
-										</div>
-									</li>
-									<li class="name-first-letter">J</li>
-									<li class="dz-chat-user">
-										<div class="d-flex bd-highlight">
-											<div class="img_cont">
-												<img src="images/avatar/5.jpg" class="rounded-circle user_img" alt=""/>
-												<span class="online_icon offline"></span>
-											</div>
-											<div class="user_info">
-												<span>Jack Ronan</span>
-												<p>Rashid left 50 mins ago</p>
-											</div>
-										</div>
-									</li>
-									<li class="dz-chat-user">
-										<div class="d-flex bd-highlight">
-											<div class="img_cont">
-												<img src="images/avatar/1.jpg" class="rounded-circle user_img" alt=""/>
-												<span class="online_icon"></span>
-											</div>
-											<div class="user_info">
-												<span>Jacob Tucker</span>
-												<p>Kalid is online</p>
-											</div>
-										</div>
-									</li>
-									<li class="dz-chat-user">
-										<div class="d-flex bd-highlight">
-											<div class="img_cont">
-												<img src="images/avatar/2.jpg" class="rounded-circle user_img" alt=""/>
-												<span class="online_icon offline"></span>
-											</div>
-											<div class="user_info">
-												<span>James Logan</span>
-												<p>Taherah left 7 mins ago</p>
-											</div>
-										</div>
-									</li>
-									<li class="dz-chat-user">
-										<div class="d-flex bd-highlight">
-											<div class="img_cont">
-												<img src="images/avatar/3.jpg" class="rounded-circle user_img" alt=""/>
-												<span class="online_icon"></span>
-											</div>
-											<div class="user_info">
-												<span>Joshua Weston</span>
-												<p>Sami is online</p>
-											</div>
-										</div>
-									</li>
-									<li class="name-first-letter">O</li>
-									<li class="dz-chat-user">
-										<div class="d-flex bd-highlight">
-											<div class="img_cont">
-												<img src="images/avatar/4.jpg" class="rounded-circle user_img" alt=""/>
-												<span class="online_icon offline"></span>
-											</div>
-											<div class="user_info">
-												<span>Oliver Acker</span>
-												<p>Nargis left 30 mins ago</p>
-											</div>
-										</div>
-									</li>
-									<li class="dz-chat-user">
-										<div class="d-flex bd-highlight">
-											<div class="img_cont">
-												<img src="images/avatar/5.jpg" class="rounded-circle user_img" alt=""/>
-												<span class="online_icon offline"></span>
-											</div>
-											<div class="user_info">
-												<span>Oscar Weston</span>
-												<p>Rashid left 50 mins ago</p>
-											</div>
-										</div>
-									</li>
+									@endforeach
+									
 								</ul>
 							</div>
 						</div>
@@ -489,70 +337,7 @@
 							<div class="card-footer"></div>
 						</div>
 					</div>
-					<div class="tab-pane fade" id="notes">
-						<div class="card mb-sm-3 mb-md-0 note_card">
-							<div class="card-header chat-list-header text-center">
-								<a href="#"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect fill="#000000" x="4" y="11" width="16" height="2" rx="1"/><rect fill="#000000" opacity="0.3" transform="translate(12.000000, 12.000000) rotate(-270.000000) translate(-12.000000, -12.000000) " x="4" y="11" width="16" height="2" rx="1"/></g></svg></a>
-								<div>
-									<h6 class="mb-1">Notes</h6>
-									<p class="mb-0">Add New Nots</p>
-								</div>
-								<a href="#"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="18px" viewBox="0 0 24 24" version="1.1"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect x="0" y="0" width="24" height="24"/><path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/><path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z" fill="#000000" fill-rule="nonzero"/></g></svg></a>
-							</div>
-							<div class="card-body contacts_body p-0 dz-scroll" id="DZ_W_Contacts_Body2">
-								<ul class="contacts">
-									<li class="active">
-										<div class="d-flex bd-highlight">
-											<div class="user_info">
-												<span>New order placed..</span>
-												<p>10 Aug 2020</p>
-											</div>
-											<div class="ml-auto">
-												<a href="#" class="btn btn-primary btn-xs sharp mr-1"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
-											</div>
-										</div>
-									</li>
-									<li>
-										<div class="d-flex bd-highlight">
-											<div class="user_info">
-												<span>Youtube, a video-sharing website..</span>
-												<p>10 Aug 2020</p>
-											</div>
-											<div class="ml-auto">
-												<a href="#" class="btn btn-primary btn-xs sharp mr-1"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
-											</div>
-										</div>
-									</li>
-									<li>
-										<div class="d-flex bd-highlight">
-											<div class="user_info">
-												<span>john just buy your product..</span>
-												<p>10 Aug 2020</p>
-											</div>
-											<div class="ml-auto">
-												<a href="#" class="btn btn-primary btn-xs sharp mr-1"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
-											</div>
-										</div>
-									</li>
-									<li>
-										<div class="d-flex bd-highlight">
-											<div class="user_info">
-												<span>Athan Jacoby</span>
-												<p>10 Aug 2020</p>
-											</div>
-											<div class="ml-auto">
-												<a href="#" class="btn btn-primary btn-xs sharp mr-1"><i class="fa fa-pencil"></i></a>
-												<a href="#" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
-											</div>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
+				
 				</div>
 			</div>
 		</div>
@@ -664,7 +449,9 @@
 										<path d="M7.84173 11.4233H12.0498C12.273 11.4233 12.4871 11.3347 12.6449 11.1768C12.8027 11.019 12.8914 10.8049 12.8914 10.5817C12.8914 10.3585 12.8027 10.1444 12.6449 9.98661C12.4871 9.82878 12.273 9.74011 12.0498 9.74011H7.84173C7.61852 9.74011 7.40446 9.82878 7.24662 9.98661C7.08879 10.1444 7.00012 10.3585 7.00012 10.5817C7.00012 10.8049 7.08879 11.019 7.24662 11.1768C7.40446 11.3347 7.61852 11.4233 7.84173 11.4233Z" fill="#EB8153"/>
 										<path d="M15.4162 13.1066H7.84173C7.61852 13.1066 7.40446 13.1952 7.24662 13.3531C7.08879 13.5109 7.00012 13.725 7.00012 13.9482C7.00012 14.1714 7.08879 14.3855 7.24662 14.5433C7.40446 14.7011 7.61852 14.7898 7.84173 14.7898H15.4162C15.6394 14.7898 15.8535 14.7011 16.0113 14.5433C16.1692 14.3855 16.2578 14.1714 16.2578 13.9482C16.2578 13.725 16.1692 13.5109 16.0113 13.3531C15.8535 13.1952 15.6394 13.1066 15.4162 13.1066Z" fill="#EB8153"/>
 									</svg>
-									<span class="badge light text-white bg-primary rounded-circle">6</span>
+									<span class="badge light text-white bg-primary rounded-circle" id="count-message">
+										0
+									</span>
                                 </a>
 							</li>
 							<li class="nav-item dropdown notification_dropdown">
