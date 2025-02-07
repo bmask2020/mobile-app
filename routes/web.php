@@ -7,7 +7,7 @@ use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductController;
-
+use App\Http\Controllers\ChatController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -62,6 +62,15 @@ Route::controller(ProductController::class)->group(function () {
 });
 
 
+Route::controller(ChatController::class)->group(function () {
+
+    Route::middleware(['auth', 'verified','role:admin'])->group(function () {
+
+        Route::get('/live-message/{id}', 'show_live_message')->name('live.message');
+
+    });
+
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
