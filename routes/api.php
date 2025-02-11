@@ -39,17 +39,18 @@ Route::controller(DashboardController::class)->group(function () {
    
     Route::any('otp-verify', 'otp_verify');
 
-    Route::get('create-orders', 'create_orders');
+    Route::get('create-orders', 'create_orders')->middleware('auth:sanctum');
     
-    Route::get('authorised/{id}', 'authorised');
+    Route::get('authorised/{id}', 'authorised')->middleware('auth:sanctum');
 
-    Route::get('declined/{id}', 'declined');
+    Route::get('declined/{id}', 'declined')->middleware('auth:sanctum');
 
-    Route::get('cancelled/{id}', 'cancelled');
+    Route::get('cancelled/{id}', 'cancelled')->middleware('auth:sanctum');
 
-    Route::get('orders-fetch', 'orders_fetch');
+    Route::get('orders-fetch', 'orders_fetch')->middleware('auth:sanctum');
     
-    Route::any('live-chat', 'live_chat');
+    Route::any('live-chat', 'live_chat')->middleware('auth:sanctum');
+    Route::any('live-chat/replay', 'live_chat_replay');
    
 });
 

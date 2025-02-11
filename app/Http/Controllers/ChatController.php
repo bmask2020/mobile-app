@@ -22,7 +22,7 @@ class ChatController extends Controller
         ->select('supports.message_no', 'supports.sender', 'supports.message', 'supports.created_at', 'users.name')
         ->get();
 
-        return view('dashboard.live_chat.show', compact('message'));
+        return view('dashboard.live_chat.show', compact('message', 'data'));
      
 
     } // End Method

@@ -14,6 +14,8 @@ use App\Models\PhoneVerify;
 use App\Models\Orders;
 use App\Events\LiveChat;
 use App\Models\Support;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 class DashboardController extends Controller
 {
    
@@ -758,6 +760,9 @@ class DashboardController extends Controller
 
         if($request->isMethod('post')) { 
 
+            $headers = getallheaders();
+            $token = substr($headers['Authorization'], 7);
+
             $message = strip_tags($request->message);
 
             $pusher = new \Pusher\Pusher(
@@ -784,6 +789,7 @@ class DashboardController extends Controller
                     $Support->message_no    = $check->message_no;
                     $Support->sender        = $user->id;
                     $Support->message       = $message;
+                    $Support->token         = $token;
                     $Support->created_at    = Carbon::now();
                     $Support->save();
 
@@ -795,6 +801,7 @@ class DashboardController extends Controller
                     $Support->message_no    = $randNo;
                     $Support->sender        = $user->id;
                     $Support->message       = $message;
+                    $Support->token         = $token;
                     $Support->created_at    = Carbon::now();
                     $Support->save();
                     
@@ -819,6 +826,42 @@ class DashboardController extends Controller
     
             ], 404);
         }
-    }
+
+    } // End Method
+
+
+    public function live_chat_replay(Request $request) {
+
+        $pusher = new \Pusher\Pusher(
+            "0151b92565c624fbd709",
+            "7ace1df5295c21bebef4",
+            "1141262",
+            array('cluster' => 'eu')
+          );
+
+        $sender = $request->sender;
+        $name   = $request->name;
+        $message = strip_tags($request->message);
+
+        $first = Support::where([
+            ['message_no', '=', $request->message_no],
+            ['sender', '!=', '1']
+        ])->first();
+
+       
+        $pusher->trigger('live-chat', 'my-event', ['message' => $message, 'token' => $first->token, 'name' => $name]);
+
+      
+        $Support = Support::insert([
+            'message_no'    => $request->message_no,
+            'sender'        => $sender,
+            'message'       => $message,
+            'token'         => $first->token,
+            'created_at'    => Carbon::now()
+        ]);
+
+        return response()->json($Support);
+
+    } // End Method
 
 }

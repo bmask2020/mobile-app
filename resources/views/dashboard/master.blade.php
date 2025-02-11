@@ -13,7 +13,7 @@
 	<link href="{{ asset('/vendor/owl-carousel/owl.carousel.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
 	<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-	
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
 
@@ -266,7 +266,10 @@
 										<path d="M7.84173 11.4233H12.0498C12.273 11.4233 12.4871 11.3347 12.6449 11.1768C12.8027 11.019 12.8914 10.8049 12.8914 10.5817C12.8914 10.3585 12.8027 10.1444 12.6449 9.98661C12.4871 9.82878 12.273 9.74011 12.0498 9.74011H7.84173C7.61852 9.74011 7.40446 9.82878 7.24662 9.98661C7.08879 10.1444 7.00012 10.3585 7.00012 10.5817C7.00012 10.8049 7.08879 11.019 7.24662 11.1768C7.40446 11.3347 7.61852 11.4233 7.84173 11.4233Z" fill="#EB8153"/>
 										<path d="M15.4162 13.1066H7.84173C7.61852 13.1066 7.40446 13.1952 7.24662 13.3531C7.08879 13.5109 7.00012 13.725 7.00012 13.9482C7.00012 14.1714 7.08879 14.3855 7.24662 14.5433C7.40446 14.7011 7.61852 14.7898 7.84173 14.7898H15.4162C15.6394 14.7898 15.8535 14.7011 16.0113 14.5433C16.1692 14.3855 16.2578 14.1714 16.2578 13.9482C16.2578 13.725 16.1692 13.5109 16.0113 13.3531C15.8535 13.1952 15.6394 13.1066 15.4162 13.1066Z" fill="#EB8153"/>
 									</svg>
-									@php($count = DB::table('supports')->where('status', '=', 0)->count('id'))
+									@php($count = DB::table('supports')->where([
+										['status', '=', 0],
+										['sender', '!=', '1']
+									])->count('id'))
 									<span class="badge light text-white bg-primary rounded-circle" id="count-message">
 										{{ $count }}
 									</span>
@@ -367,9 +370,9 @@
 	<script src="{{ asset('/vendor/owl-carousel/owl.carousel.js') }}"></script>
     <script src="{{ asset('/js/custom.min.js') }}"></script>
 	<script src="{{ asset('/js/deznav-init.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
-    
-	
+	@yield('js')
 	<script>
 		var a = [];
 		
@@ -382,37 +385,46 @@
 	
 		var channel = pusher.subscribe('live-chat');
 		channel.bind('my-event', function(data) {
-	
-			var count = document.getElementById('count-message');
 			
-			a.push(1);
-		
-			let sum = 0;
-
-			for (let i = 0; i < a.length; i++) {
-				sum = a[i];
-			}
-
-			document.getElementById('count-message').innerHTML = sum + Number(count.textContent);
-
 			var myMessage = (JSON.stringify(data['message']));
 			var name = (JSON.stringify(data['name']));
+			var myName = name.slice(1, -1);
+
 			var id = (JSON.stringify(data['id']));
+			
+			if(myName != "admin") {
+
+				var count = document.getElementById('count-message');
+			
+				a.push(1);
+			
+				let sum = 0;
+
+				for (let i = 0; i < a.length; i++) {
+					sum = a[i];
+				}
+
+				document.getElementById('count-message').innerHTML = sum + Number(count.textContent);
+
+			
 		
-			$('.contacts').append('<li class="active dz-chat-user">\
-										<a href="/live-message/'+ id +'">\
-										<div class="d-flex bd-highlight">\
-											<div class="img_cont">\
-												<img src="{{ asset('/images/user.jpg') }}" class="rounded-circle user_img" alt=""/>\
-												<span class="online_icon"></span>\
-											</div>\
-											<div class="user_info">\
-												<span>'+ myMessage.slice(1, -1) +'</span>\
-												<p>'+ name.slice(1, -1) +'</p>\
-											</div>\
-										</div>\
-										</a>\
-									</li>')
+				$('.contacts').append('<li class="active dz-chat-user">\
+				<a href="/live-message/'+ id +'">\
+				<div class="d-flex bd-highlight">\
+					<div class="img_cont">\
+						<img src="{{ asset('/images/user.jpg') }}" class="rounded-circle user_img" alt=""/>\
+						<span class="online_icon"></span>\
+					</div>\
+					<div class="user_info">\
+						<span>'+ myMessage.slice(1, -1) +'</span>\
+						<p>'+ myName +'</p>\
+					</div>\
+					</div>\
+				</a>\
+				</li>')
+			
+
+			}
 			
 		});
 		
