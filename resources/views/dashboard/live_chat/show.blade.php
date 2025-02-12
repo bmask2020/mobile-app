@@ -49,7 +49,7 @@
            
 
         </div>
-
+        <input type="hidden" value="{{ $data->sender }}" id="user_id">
         <div class="col-xl-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
@@ -79,7 +79,54 @@
 
 @section('js')
     <script>
+        
+    // Enable pusher logging - don't include this in production
+	Pusher.logToConsole = true;
+	
+    var pusher = new Pusher('0151b92565c624fbd709', {
+    cluster: 'eu'
+    });
+
+    var channel = pusher.subscribe('live-chat');
+
+    channel.bind('my-event', function(data) {
+
+
+        var message     = (JSON.stringify(data['message']));
+        var name        = (JSON.stringify(data['name']));
+        var time        = (JSON.stringify(data['time']));
+
+        var myName      = name.slice(1, -1);
+        var myMessage   = message.slice(1, -1);
+        var myTime      = time.slice(1, -1);
+        var id = (JSON.stringify(data['id']));
+
+        var user_id = $('#user_id').val();
+      
+        if(user_id == id) {
+
+            $('#messages_parent').append('<div class="col-xl-12">\
+                <div class="card">\
+                    <div class="card-header" style="display:flex;justify-content:flex-end">\
+                        <h5 class="card-title" style="direction: rtl;text-align:right">'+ myName +'</h5>\
+                    </div>\
+                    <div class="card-body">\
+                        <p class="card-text" style="direction: rtl;text-align:right">'+ myMessage +'</p>\
+                    </div>\
+                    <div class="card-footer d-sm-flex justify-content-between align-items-center">\
+                        <div class="card-footer-link mb-4 mb-sm-0">\
+                            <p class="card-text text-dark d-inline">'+ myTime +'</p>\
+                        </div>\
+                    </div>\
+                </div>\
+            </div>')
+
+        }
+
+    });
+
         $(document).ready(function(){
+
 
             $('.sendReplay').on('click', function(e) {
 

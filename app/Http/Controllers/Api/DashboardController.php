@@ -772,10 +772,10 @@ class DashboardController extends Controller
                 array('cluster' => 'eu')
               );
               
-            $id  = auth('sanctum')->user()->id;
-            $name  = auth('sanctum')->user()->name;
-
-            $pusher->trigger('live-chat', 'my-event', ['message' => $message, 'id' => $id, 'name' => $name]);
+            $id     = auth('sanctum')->user()->id;
+            $name   = auth('sanctum')->user()->name;
+            $time   = Carbon::now()->diffForHumans();
+            $pusher->trigger('live-chat', 'my-event', ['message' => $message, 'id' => $id, 'name' => $name, 'time' => $time]);
 
             if($pusher == true) {
 
