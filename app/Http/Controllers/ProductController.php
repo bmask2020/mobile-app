@@ -28,7 +28,8 @@ class ProductController extends Controller
                 'price'         => 'required',
                 'brand'         => 'required',
                 'avalibale'     => 'required',
-                'img'           => 'required'
+                'img'           => 'required',
+                'quantity'      => 'required|gt:0'
             ]);
 
 
@@ -37,7 +38,7 @@ class ProductController extends Controller
             $brand      = strip_tags($request->brand);
             $avalibale  = strip_tags($request->avalibale);
             $details    = strip_tags($request->details);
-
+            $quantity   = strip_tags($request->quantity);
             $img = $request->file('img');
             
             $gen        = hexdec(uniqid());
@@ -56,6 +57,7 @@ class ProductController extends Controller
                 'img'           => $source,
                 'avalibale'     => $avalibale,
                 'details'       => $details,
+                'quantity'      => $quantity,
                 'created_at'    => Carbon::now()
 
             ]);

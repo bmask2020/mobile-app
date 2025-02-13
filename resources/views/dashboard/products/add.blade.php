@@ -33,8 +33,16 @@
 
                                 <div class="form-group">
                                     <label for="price">Product Price</label>
-                                    <input type="number" name="price" id="price" class="form-control input-default " placeholder="Brand Name">
+                                    <input type="number" name="price" id="price" class="form-control input-default " placeholder="Product Price">
                                     @error('price')
+                                        <span>{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="quantity">Product Quantity</label>
+                                    <input type="number" name="quantity" id="quantity" class="form-control input-default " placeholder="Product Quantity">
+                                    @error('quantity')
                                         <span>{{ $message }}</span>
                                     @enderror
                                 </div>
