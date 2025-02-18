@@ -110,8 +110,8 @@ class ProductController extends Controller
             $validated = $request->validate([
                 'pro_name'      => 'required',
                 'price'         => 'required',
-                'brand'         => 'required',
-                'avalibale'     => 'required'
+                'avalibale'     => 'required',
+                'quantity'      => 'required'
             ]);
 
             $pro_name       = strip_tags($request->pro_name);
@@ -120,7 +120,7 @@ class ProductController extends Controller
             $avalibale      = strip_tags($request->avalibale);
             $id             = $request->id;
             $details        = strip_tags($request->details);
-
+            $quantity       = strip_tags($request->quantity);
             $product        = Product::findOrFail($id);
 
             if($request->hasFile('img')) {
@@ -143,9 +143,14 @@ class ProductController extends Controller
 
             $product->pro_name      = $pro_name;
             $product->price         = $price;
-            $product->brand         = $brand;
+            if($brand != '') {
+
+                $product->brand     = $brand;
+            }
+          
             $product->avalibale     = $avalibale;
             $product->details       = $details;
+            $product->quantity      = $quantity;
             $product->save();
 
             return redirect()->back()->with('msg', 'Product Updated Success');

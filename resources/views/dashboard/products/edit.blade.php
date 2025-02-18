@@ -48,6 +48,14 @@
                                     @enderror
                                 </div>
 
+
+                                <div class="form-group">
+                                    <input type="number" name="quantity" class="form-control input-default " placeholder="Product Quantity" value="{{ $data->quantity }}">
+                                    @error('quantity')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
                                 <div class="form-group">
                                     <select name="brand" id="" class="form-control">
                                         <option value="" selected style="color: #000">Product Brand Select</option>

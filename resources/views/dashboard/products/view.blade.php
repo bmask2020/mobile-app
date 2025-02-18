@@ -38,6 +38,7 @@
                                         <th><strong>Price</strong></th>
                                         <th><strong>Brand</strong></th>
                                         <th><strong>In Stock</strong></th>
+                                        <th><strong>Quantity</strong></th>
                                         <th><strong>Image</strong></th>
                                         <th></th>
                                     </tr>
@@ -59,7 +60,10 @@
                                                 <span class="badge light badge-danger">Out Stock</span>
                                                 @endif
                                             </td>
-
+                                            
+                                            <td>
+                                                {{ $val->quantity }}
+                                            </td>
                                             <td>
                                                 <img src="{{ asset($val->img) }}" style="width:100px" alt="">
                                             </td>
