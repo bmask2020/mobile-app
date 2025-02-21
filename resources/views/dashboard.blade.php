@@ -98,25 +98,10 @@
                             <path d="M40.525 10.8238C24.441 10.5405 11.1238 23.391 10.8405 39.475C10.7455 44.5352 11.9605 49.3204 14.1639 53.5139H23.3326V24.8027C23.3326 23.0476 25.7177 22.4893 26.4928 24.0643L40 51.4171L53.5072 24.066C54.2822 22.4893 56.6674 23.0476 56.6674 24.8027V53.5139H65.8077C67.8578 49.6171 69.0779 45.2169 69.1595 40.525C69.4429 24.441 56.609 11.1238 40.525 10.8238Z" fill="#FF782C"/>
                             <path d="M53.3339 55.1806V31.943L41.4934 55.919C40.9334 57.0574 39.065 57.0574 38.5049 55.919L26.6661 31.943V55.1806C26.6661 56.1007 25.9211 56.8474 24.9994 56.8474H16.2474C21.4326 64.1327 29.8629 68.9795 39.475 69.1595C49.4704 69.3362 58.3908 64.436 63.786 56.8474H55.0006C54.0789 56.8474 53.3339 56.1007 53.3339 55.1806Z" fill="#FF782C"/>
                         </svg>
-                        <h2 class="text-black mb-2 font-w600">$667,224</h2>
+                        <h2 class="text-black mb-2 font-w600">{{ $sales }} SAR</h2>
                         <p class="mb-0 fs-14">
-                            <svg width="29" height="22" viewBox="0 0 29 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g filter="url(#filter0_d5)">
-                                <path d="M5 16C5.91797 14.9157 8.89728 11.7277 10.5 10L16.5 13L23.5 4" stroke="#2BC155" stroke-width="2" stroke-linecap="round"/>
-                                </g>
-                                <defs>
-                                <filter id="filter0_d5" x="-3.05176e-05" y="-6.10352e-05" width="28.5001" height="22.0001" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
-                                <feOffset dy="1"/>
-                                <feGaussianBlur stdDeviation="2"/>
-                                <feColorMatrix type="matrix" values="0 0 0 0 0.172549 0 0 0 0 0.72549 0 0 0 0 0.337255 0 0 0 0.61 0"/>
-                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
-                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
-                                </filter>
-                                </defs>
-                            </svg>
-                            <span class="text-success mr-1">45%</span>This week
+                         
+                            <span class="text-success mr-1">Sales</span>
                         </p>	
                     </div>
                 </div>
@@ -129,95 +114,39 @@
                     <div class="col-sm-6">
                         <div class="card">
                             <div class="card-header border-0 pb-0">
-                                <h4 class="mb-0 fs-20 text-black">Sell Order</h4>
-                                <div class="dropdown custom-dropdown mb-0 tbl-orders-style">
-                                    <div class="btn sharp tp-btn" data-toggle="dropdown">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                    </div>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="javascript:void(0);">Details</a>
-                                        <a class="dropdown-item text-danger" href="javascript:void(0);">Cancel</a>
-                                    </div>
-                                </div>
+                                <h4 class="mb-0 fs-20 text-black">Sales Order</h4>
+                              
                             </div>
                             <div class="card-body p-3 pb-0">
-                                <div class="dropdown custom-dropdown d-block tbl-orders">
-                                    <div class="btn  d-flex align-items-center border-0 order-bg rounded " data-toggle="dropdown">
-                                        <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M23.4169 0.00384777C10.7089 -0.226161 0.233857 9.88466 0.00384777 22.5831C-0.226161 35.2815 9.88466 45.7661 22.5831 45.9961C35.2815 46.2261 45.7661 36.1153 45.9961 23.4073C46.2261 10.7089 36.1153 0.224273 23.4169 0.00384777ZM22.6598 41.6834C12.3573 41.4918 4.12485 32.9622 4.31652 22.6598C4.49861 12.3573 13.0281 4.12485 23.3306 4.30694C33.6427 4.49861 41.8655 13.0281 41.6834 23.3306C41.5013 33.6331 32.9622 41.8655 22.6598 41.6834Z" fill="#374C98"/>
-                                            <path d="M23.3038 6.22751C14.0555 6.06459 6.3981 13.4536 6.23518 22.7019C6.06267 31.9406 13.4517 39.598 22.7 39.7705C31.9483 39.9334 39.6057 32.5444 39.7686 23.3057C39.9315 14.0574 32.5521 6.40002 23.3038 6.22751ZM30.2136 32.7361H14.9564L16.8252 22.3952L14.6593 22.8457V21.0823L17.151 20.5552L18.7707 11.6615H24.8563L23.4763 19.2326L25.6039 18.7822V20.5456L23.1504 21.0535L21.732 28.8738H31.3445L30.2136 32.7361Z" fill="#374C98"/>
-                                        </svg>
-                                        <div class="text-left ml-3">
-                                            <span class="d-block fs-16 text-black">Litecoin</span>
-                                        </div>
-                                        <i class="fa fa-angle-down scale5 ml-auto"></i>
-                                    </div>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="javascript:void(0);">Bitcoin</a>
-                                        <a class="dropdown-item" href="javascript:void(0);">ETH coin</a>
-                                    </div>
-                                </div>
+                                @if(count($salesPro) > 0)
                                 <div class="table-responsive">
                                     <table class="table text-center bg-info-hover tr-rounded order-tbl">
                                         <thead>
                                             <tr>
-                                                <th class="text-left">Price</th>
-                                                <th class="text-center">Amount</th>
-                                                <th class="text-right">Total</th>
+                                                <th class="text-left">Product Name</th>
+                                                <th class="text-center">Quantity</th>
+                                                <th class="text-right">Price</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-left">82.3</td>
-                                                <td>0.15</td>
-                                                <td class="text-right">$134,12</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-left">83.9</td>
-                                                <td>0.18</td>
-                                                <td class="text-right">$237,31</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-left">84.2</td>
-                                                <td>0.25</td>
-                                                <td class="text-right">$252,58</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-left">86.2</td>
-                                                <td>0.35</td>
-                                                <td class="text-right">$126,26</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-left">91.6</td>
-                                                <td>0.75</td>
-                                                <td class="text-right">$46,92</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-left">92.6</td>
-                                                <td>0.21</td>
-                                                <td class="text-right">$123,27</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-left">93.9</td>
-                                                <td>0.55</td>
-                                                <td class="text-right">$212,56</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-left">94.2</td>
-                                                <td>0.18</td>
-                                                <td class="text-right">$129,26</td>
-                                            </tr>
+                                            @foreach ($salesPro as $val)
+                                                
+                                           
+                                                <tr>
+                                                    <td class="text-left">{{ $val->pro_name }}</td>
+                                                    <td>{{ $val->quantity }}</td>
+                                                    <td class="text-right">{{ $val->price }} SAR</td>
+                                                </tr>
+                                          
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
+                                @else
+                                <p>There Are Not Sales Orders yet</p>
+                                @endif
                             </div>
-                            <div class="card-footer border-0 p-0 caret">
-                                <a href="coin-details.html" class="btn-link"><i class="fa fa-caret-down" aria-hidden="true"></i></a>
-                            </div>
+                          
                         </div>	
                     </div>
                     <div class="col-sm-6">

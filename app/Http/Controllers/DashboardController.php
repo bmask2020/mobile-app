@@ -13,6 +13,8 @@ use App\Mail\ForgetPassword;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Brand;
 use App\Models\Product;
+use App\Models\Orders;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -130,8 +132,15 @@ class DashboardController extends Controller
         $productOutStock = Product::where('avalibale', '=', 0)->count('id');
 
         $limitedStock = Product::where('quantity', '<', 10)->latest()->paginate(10);
+        $sales = Orders::where('status', '=', true)->sum('price');
 
-        return view('dashboard', compact('Brand', 'productInStock', 'productOutStock', 'limitedStock'));
+        $salesPro = DB::table('orders')
+        ->join('products', 'orders.product_id', 'products.id')
+        ->select('orders.price', 'orders.quantity', 'products.pro_name', 'orders.created_at')
+        ->latest()
+        ->paginate(10);
+
+        return view('dashboard', compact('Brand', 'productInStock', 'productOutStock', 'limitedStock', 'sales', 'salesPro'));
 
     } // End Method
 }
