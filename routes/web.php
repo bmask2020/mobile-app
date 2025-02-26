@@ -25,6 +25,9 @@ Route::controller(DashboardController::class)->group(function () {
     Route::middleware(['auth', 'verified','role:admin'])->group(function () {
 
         Route::get('/dashboard', 'dashboard')->name('dashboard');
+
+        Route::get('/admin/users', 'users_view')->name('users.view');
+        
     });
     
 });

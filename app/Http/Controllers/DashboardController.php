@@ -143,4 +143,16 @@ class DashboardController extends Controller
         return view('dashboard', compact('Brand', 'productInStock', 'productOutStock', 'limitedStock', 'sales', 'salesPro'));
 
     } // End Method
+
+
+    public function users_view() {
+
+
+        $users = User::role('user')->latest()->paginate(10);
+        return view('dashboard.users.index', compact('users'));
+      
+
+    } // End Method
+
+
 }

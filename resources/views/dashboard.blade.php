@@ -146,7 +146,7 @@
                                 <p>There Are Not Sales Orders yet</p>
                                 @endif
                             </div>
-                          
+                            {{ $salesPro->links() }}
                         </div>	
                     </div>
                     <div class="col-sm-6">
