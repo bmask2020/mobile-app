@@ -27,6 +27,7 @@ Route::controller(DashboardController::class)->group(function () {
         Route::get('/dashboard', 'dashboard')->name('dashboard');
 
         Route::get('/admin/users', 'users_view')->name('users.view');
+        Route::get('/admin/users/block/{id}', 'users_block')->name('users.block');
         
     });
     

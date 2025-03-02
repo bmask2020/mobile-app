@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use App\Models\UserBlock;
 
 class AuthController extends Controller
 {
@@ -25,26 +26,44 @@ class AuthController extends Controller
         $name = strip_tags($data['name']);
         $email = strip_tags($data['email']);
         $password = Hash::make($data['password']);
+        $ip = $_SERVER['REMOTE_ADDR'];
 
-        $user = User::create([
+        $check = UserBlock::where('ip', '=', $ip)->first();
 
-            'name'=> $name,
-            'email'=> $email,
-            'password'=> $password
+        if(isset($check)) {
 
-        ]);
+            return response()->json([
+
+                'status'    => true,
+                'message'   => 'Sorry Your Account Was Block From The App',
+                'data'      => []
+    
+            ], 200);
+
+        } else {
+
+            $user = User::create([
+
+                'name'      => $name,
+                'email'     => $email,
+                'password'  => $password,
+                'ip'        => $ip
+
+            ]);
 
 
-        $user->assignRole('user');
+            $user->assignRole('user');
 
 
-        return response()->json([
+            return response()->json([
 
-            'status'    => true,
-            'message'   => 'new Account',
-            'data'      => $user->createToken($email)->plainTextToken
+                'status'    => true,
+                'message'   => 'new Account',
+                'data'      => $user->createToken($email)->plainTextToken
 
-        ], 200);
+            ], 200);
+
+        }
 
     } // End Method
 
@@ -73,6 +92,10 @@ class AuthController extends Controller
 
                 if($check == true) { 
 
+                    $ip = $_SERVER['REMOTE_ADDR'];
+
+                    $user->ip = $ip;
+                    $user->save();
 
                     return response()->json([
 

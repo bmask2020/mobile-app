@@ -15,6 +15,9 @@ use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Orders;
 use Illuminate\Support\Facades\DB;
+use App\Models\UserBlock;
+use Carbon\Carbon;
+use App\Models\Support;
 
 class DashboardController extends Controller
 {
@@ -151,6 +154,30 @@ class DashboardController extends Controller
         $users = User::role('user')->latest()->paginate(10);
         return view('dashboard.users.index', compact('users'));
       
+
+    } // End Method
+
+
+    public function users_block($id) {
+
+        $user = User::where('id', '=', $id)->first();
+
+        $message = Support::where('sender', '=', $id)->get();
+
+        foreach($message as $val) {
+
+            Support::where('message_no', '=', $val->message_no)->delete();
+
+        }
+
+        UserBlock::insert([
+            'ip'            => $user->ip,
+            'created_at'    => Carbon::now()
+        ]);
+
+        User::where('id', '=', $id)->delete();
+
+        return redirect()->back()->with('msg', 'User Blocked Successfully');
 
     } // End Method
 
