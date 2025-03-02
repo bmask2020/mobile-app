@@ -59,5 +59,6 @@ Route::controller(AuthController::class)->group(function () {
 
     Route::any('login', 'login');
     Route::post('register', 'register');
+    Route::get('/logout', 'logout');
     
 });

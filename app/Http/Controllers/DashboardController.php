@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\UserBlock;
 use Carbon\Carbon;
 use App\Models\Support;
+use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
 {
@@ -182,4 +183,13 @@ class DashboardController extends Controller
     } // End Method
 
 
+
+    public function admin_logout() {
+
+        Auth::logout();
+        Session::flush();
+
+        return redirect()->route('login');
+
+    } // End Method
 }

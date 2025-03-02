@@ -45,7 +45,7 @@
             </li>
          
        
-            <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
+            <li><a href="{{ route('admin.logout') }}" class="ai-icon" aria-expanded="false">
                 <i class="flaticon-381-settings-2"></i>
                 <span class="nav-text">Logout</span>
             </a>
