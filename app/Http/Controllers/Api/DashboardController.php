@@ -16,6 +16,8 @@ use App\Events\LiveChat;
 use App\Models\Support;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
 class DashboardController extends Controller
 {
    
@@ -899,5 +901,80 @@ class DashboardController extends Controller
         ], 200);
 
     } // End Method
+
+
+    public function profile_update(Request $request) {
+
+        if($request->isMethod('post')) {
+
+            $user       = auth('sanctum')->user();
+
+            $data       = User::where('id', '=', $user->id)->first();
+
+            $name       = strip_tags($request->name);
+            $email      = strip_tags($request->email);
+            $password   = $request->password;
+            $img        = $request->file('img');
+
+          
+            if($name != '') {
+
+                $data->name = $name;
+            }
+
+            if($email != '') {
+
+                $data->email = $email;
+
+            }
+
+            if($password != '') {
+
+                $data->password = Hash::make($password);
+            }
+
+
+            if(isset($img)) {
+
+                if($data->img != '') {
+
+                    unlink($data->img);
+                }
+
+                $gen        = hexdec(uniqid());
+                $exe        = strtolower($img->getClientOriginalExtension());
+                $imgName    = $gen . '.' . $exe;
+                $location   = 'images/profile/';
+                $source     = $location . $imgName;
+                $img->move($location, $imgName);
+
+                $data->img = $source;
+
+            }
+
+            $data->save();
+
+            if($data == true) {
+
+                return response()->json([
+
+                    'status'    => true,
+                    'message'   => "Profile Updated Successfully",
+                    'data'      => $data
+        
+                ], 200);
+
+            }
+            
+
+        } else {
+
+            return response()->json([
+
+                'status'    => false,
+                'message'   => "This Page Not Found",
+            ], 404);
+        }
+    }
  
 }

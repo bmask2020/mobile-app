@@ -53,6 +53,7 @@ Route::controller(DashboardController::class)->group(function () {
     Route::any('live-chat/replay', 'live_chat_replay');
 
     Route::get('profile', 'profile')->middleware('auth:sanctum');
+    Route::any('profile/update', 'profile_update')->middleware('auth:sanctum');
     
    
 });
