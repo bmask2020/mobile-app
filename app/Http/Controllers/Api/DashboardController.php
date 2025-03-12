@@ -880,4 +880,24 @@ class DashboardController extends Controller
 
     } // End Method
 
+
+
+    public function profile() {
+
+        $user  = auth('sanctum')->user();
+
+        $data = User::where('id', '=', $user->id)
+        ->select(['id', 'name', 'email'])
+        ->first();
+
+        return response()->json([
+
+            'status'    => true,
+            'message'   => "Profile Data",
+            'data'      => $data
+
+        ], 200);
+
+    } // End Method
+ 
 }
