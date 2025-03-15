@@ -29,6 +29,8 @@ Route::controller(DashboardController::class)->group(function () {
         Route::get('/admin/users', 'users_view')->name('users.view');
         Route::get('/admin/users/block/{id}', 'users_block')->name('users.block');
 
+        Route::get('/admin/profile', 'admin_profile')->name('admin.profile');
+        
         Route::get('/admin/logout', 'admin_logout')->name('admin.logout');
 
         

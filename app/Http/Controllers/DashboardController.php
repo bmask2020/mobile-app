@@ -183,6 +183,12 @@ class DashboardController extends Controller
     } // End Method
 
 
+    public function admin_profile() {
+
+        $user = User::where('id', '=', Auth::user()->id)->first();
+        return view('dashboard.profile.index', compact('user'));
+        
+    } // End Method
 
     public function admin_logout() {
 
