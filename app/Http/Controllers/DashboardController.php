@@ -190,6 +190,61 @@ class DashboardController extends Controller
         
     } // End Method
 
+
+    public function admin_profile_update(Request $request) {
+
+        if($request->isMethod('post')) {
+
+            $name = strip_tags($request->name);
+            $email = strip_tags($request->email);
+            
+            $user = User::where('id', '=', Auth::user()->id)->first();
+
+            $user->name = $name;
+            $user->email = $email;
+
+            if($request->password != null) {
+
+                $user->password = Hash::make($request->password);
+
+            }
+
+
+            if($request->img != null) {
+
+                if($user->img != '') {
+
+                    unlink($user->img);
+
+                }
+
+                $img = $request->file('img');
+                $gen = hexdec(uniqid());
+                $ex  = strtolower($img->getClientOriginalExtension());
+                $name = $gen . '.' . $ex;
+                $location = 'images/profile/';
+                $source = $location. $name;
+                $img->move($location, $name);
+
+                $user->img = $source;
+
+            }
+            
+            $user->save();
+
+            if($user == true) {
+
+                return redirect()->back()->with('msg', 'Profile Updated Successfully');
+            }
+           
+
+        } else {
+
+            return redirect()->back();
+        }
+
+    } // End Method
+
     public function admin_logout() {
 
         Auth::logout();

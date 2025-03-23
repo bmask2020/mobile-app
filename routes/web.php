@@ -30,6 +30,7 @@ Route::controller(DashboardController::class)->group(function () {
         Route::get('/admin/users/block/{id}', 'users_block')->name('users.block');
 
         Route::get('/admin/profile', 'admin_profile')->name('admin.profile');
+        Route::any('/admin/profile/update', 'admin_profile_update')->name('admin.profile.update');
         
         Route::get('/admin/logout', 'admin_logout')->name('admin.logout');
 

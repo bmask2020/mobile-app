@@ -27,23 +27,27 @@
                         <h4 class="card-title">Profile Update</h4>
                     </div>
                     <div class="card-body">
+                        @if( Session::has('msg') )
+                            <p class="text-danger text-center">{{ Session::get('msg') }}</p>
+                        @endif
                         <div class="basic-form">
-                            <form>
+                            <form action="{{ route('admin.profile.update') }}" method="post" enctype="multipart/form-data">
+                                @csrf
                                 <div class="form-group">
-                                    <input type="text" class="form-control input-default" value="{{ $user->name }}" placeholder="Enter Your Name">
+                                    <input type="text" name="name" class="form-control input-default" value="{{ $user->name }}" placeholder="Enter Your Name">
                                 </div>
                              
                                 <div class="form-group">
-                                    <input type="email" class="form-control input-default" value="{{ $user->email }}" placeholder="Enter Your Email">
+                                    <input type="email" name="email" class="form-control input-default" value="{{ $user->email }}" placeholder="Enter Your Email">
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="password" class="form-control input-default" placeholder="Enter Your Password">
+                                    <input type="password" name="password" class="form-control input-default" placeholder="Enter Your Password">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="img">Profile Image</label>
-                                    <input type="file" id="img" class="form-control input-default ">
+                                    <input type="file" name="img" id="img" class="form-control input-default ">
                                 </div>
 
                                 <button type="submit" class="btn btn-success">Update Profile</button>
